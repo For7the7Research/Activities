@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/Toki3Duckie/code/SavvyCoders/DAP-Curriculum/Section07/Resources/SavvyCoders_SQL_chargeDB.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="browser pragmas query structure" current="2"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2581"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="dimUser" custom_title="0" dock_id="1" table="4,7:maindimUser"/><dock_state state="000000ff00000000fd0000000100000002000006560000031bfc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000006560000010f00ffffff0000027e0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="EVCharging" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="70"/><column index="2" value="66"/><column index="3" value="53"/><column index="4" value="113"/><column index="5" value="113"/><column index="6" value="71"/><column index="7" value="64"/><column index="8" value="107"/><column index="9" value="115"/><column index="10" value="65"/><column index="11" value="64"/><column index="12" value="71"/><column index="13" value="62"/><column index="14" value="66"/><column index="15" value="73"/><column index="16" value="84"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="dimUser" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="62"/><column index="2" value="89"/><column index="3" value="102"/><column index="4" value="68"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT ROUND(13.456943690, 2)
+
+-- can just run this without picking  a table</sql><sql name="SQL 2">SELECT ROUND(AVG(chargeTimeHrs), 2) as 'avgChargeTime'
+FROM EVCharging </sql><sql name="SQL 3">SELECT ROUND(sum(chargeTimeHrs), 2) as 'totalChargeTime'
+FROM EVCharging 
+
+/* is total a function that works the same as sum */</sql><sql name="SQL 5">SELECT DISTINCT locationId, stationId, count(stationId) as numStations
+FROM EVCharging
+Group by locationId
+Order by numStations DESC
+/*charging stations is the pumps, location is the BP*/</sql><sql name="SQL 7">SELECT DISTINCT locationId, stationId, count(stationid) as numStations
+FROM EVCharging
+Group by stationId
+Order by numStations DESC
+LIMIT 20
+/*charging stations is the pumps, location is the BP*/</sql><sql name="SQL 9">SELECT DISTINCT locationId, stationId, count(*) as numStations
+FROM EVCharging
+Group by stationId
+Order by numStations DESC
+LIMIT 20
+/*charging stations is the pumps, location is the BP*/
+/* count counts how many rows are in the group */</sql><sql name="SQL 6">SELECT DISTINCT userId, ROUND(AVG(kwhTotal),2) as avgPower
+FROM EVCharging
+GROUP by userId
+ORDER by avgPower DESC</sql><sql name="SQL 8">SELECT locationid, round(sum(kwhTotal),2) as totalpowerKWH
+FROM EVCharging
+GROUP by locationId
+ORDER by totalpowerKWH DESC</sql><sql name="SQL 10">SELECT COUNT(*)
+FROM EVCharging</sql><sql name="SQL 11">/*Find the total power consumed from charging EV's by each User on Wednesday's. Round the answer to 2 deciaml points and list the out put in highest to lowest order. Limit the order to the top 15 users.*/
+
+SELECT userId, weekday, sum(kwhTotal) as totalPower
+FROM EVCharging
+WHERE weekday = 'Wed'
+GROUP by userId
+--- list the output in hgihest to lowest 
+ORDER by totalPower DESC
+/*limit the order to top 15 users*/
+LIMIT 15</sql><sql name="SQL 12">SELECT userId, weekday, platform, sum(kwhTotal) as totalPower
+FROM EVCharging
+/*start from the table*/
+WHERE platform != 'ios'
+/*can select out platform user, where platform is not ios*/
+GROUP by userId
+/*squished it down even more by distinct users */
+HAVING totalPower &gt; 1000
+ORDER by totalPower DESC
+/* where is for individual rows. totalpower represents multiple rows not individual*/
+/* there is no group until the group by, not interpreted until it is specified by the group*/
+/*having clause must come after group by or have  syntax error*/
+/* it is either individual or aggregate cll. aggregate function results has to be having and after the group by. if individual cells than where*/</sql><sql name="SQL 13">SELECT dayOfWeek, sum(kwhTotal)
+/* can now change dayID to dayOfWee, even though in separate tables, we have now joined the tbales together based on the keys*/
+FROM factCharge
+JOIN dimDay ON factCharge.dayID = dimDay.dateKey
+/* on is how i tell sql which way want the tables to connecy */
+GROUP by dayID
+Order by	2 DESC
+/* in this case 2 means second column I listed*/
+</sql><sql name="SQL 14">SELECT sessionId, carMake
+FROM factCharge
+JOIN dimUser on factCharge.userid = dimUser.userId
+group by sessionId
+ORDER  by carMake ASC
+</sql><sql name="SQL 15"></sql><current_tab id="12"/></tab_sql></sqlb_project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/Toki3Duckie/code/SavvyCoders/DAP-Curriculum/Section08/resources/SavvyCoders_SQL_2_chargeCar.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="browser pragmas query structure" current="2"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1819"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="dimCar" custom_title="0" dock_id="2" table="4,6:maindimCar"/><dock_state state="000000ff00000000fd00000001000000020000053600000326fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000000005360000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000010100ffffff0000027e0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">SELECT dimUser.carMake as Make, sessionId, count(distinct	sessionId) as numCharges, chargeTimeHrs, dimDay.dayOfWeek
+FROM	factCharge
+INNER JOIN dimUser
+	ON factCharge.userId = dimUser.userId
+INNER JOIN dimDay
+	ON factcharge.dayID = dimDay.dateKey
+WHERE dimDay.dayofWeek = 'Thursday'
+GROUP by Make	
+ORDER by numCharges DESC
+	</sql><sql name="SQL 2">/*class code*/
+SELECT b.carMake,c.dayOfWeek, Count(*) as numCharges, ROUND(SUM(chargeTimeHrs),2) as 'timeCharging'
+FROM factCharge a 
+INNER JOIN dimUser b 
+    ON a.userId = b.userId
+INNER JOIN dimDay c 
+    ON a.dayID = dateKey
+WHERE c.dayofWeek = 'Thursday'
+GROUP BY b.carMake, c.dayOfWeek
+ORDER BY 3</sql><sql name="SQL 3">doSELECT dF.typeFacility,  dU.carMake, count(*)
+FROM factCharge as fC
+INNER JOIN dimFacility as dF
+ON fC.facilityID = dF.FacilityKey
+INNER JOIN dimUser as dU
+ON fC.userId = dU.userId
+GROUP by dF.typeFacility, dU.carMake
+ORDER by dF.typeFacilityDESC
+</sql><sql name="SQL 4">/* left join means the primary table is the focus. example, people made an account on a website to determine if they have made an order. 
+or orders made on your website and see if they did make an acocount or not */
+SELECT DISTINCT factCharge.userId, dimCar.carMake, dimCar.carModel
+FROM factCharge
+INNER JOIN dimUser
+on factCharge.userId = dimUser.userId
+LEFT JOIN dimCar
+on dimUser.carID = dimCar.carID
+ORDER by factCharge.userId
+--ORDER by dimCar.carMake</sql><sql name="SQL 5">SELECT DISTINCT factCharge.userId, dimCar.carMake, dimCar.carModel, dimCar.bodyStyle
+FROM factCharge
+INNER JOIN dimUser
+on factCharge.userId = dimUser.userId
+LEFT JOIN dimCar
+on dimUser.carID = dimCar.carID
+ORDER by factCharge.userId</sql><sql name="SQL 6">/*SELECT substr(string, start, length) 
+As substr; */
+SELECT SUBSTR('SQLITE SUBSTR', 7, 7) 
+AS 'newString';</sql><sql name="SQL 7">SELECT appPlatform, TRIM(appPlatform, 'i')
+from dimUser
+WHERE appPlatform = 'ios'</sql><current_tab id="6"/></tab_sql></sqlb_project>
