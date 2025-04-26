@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="SQLWhiteBoarding.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="browser pragmas query structure" current="2"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="404"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Question5_1" custom_title="0" dock_id="1" table="4,11:mainQuestion5_1"/><dock_state state="000000ff00000000fd00000001000000020000053600000326fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000005360000010100ffffff0000027e0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Question1" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="21"/><column index="2" value="44"/><column index="3" value="48"/><column index="4" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Question4" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="30"/><column index="2" value="44"/><column index="3" value="85"/><column index="4" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Question5_1" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="21"/><column index="2" value="44"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Question5_2" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="21"/><column index="2" value="82"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT *
+FROM Question1 as emp
+INNER JOIN Question1 as mgr
+	ON emp.managerId = mgr.id
+WHERE emp.salary &gt; mgr.salary</sql><sql name="SQL 2">SELECT *
+FROM Question1 as emp</sql><sql name="SQL 3">select *
+FROM Question2
+WHEN salary &gt; min(salary) AND salary &lt; max(salary)
+	ELSE &quot;no</sql><sql name="SQL 4">SELECT *, count(email)
+FROM &quot;Question3&quot;
+GROUP by email
+HAVING Count(email)&gt;1</sql><sql name="SQL 5">SELECT managerId
+FROM &quot;Question4&quot;
+Group by managerId
+Having count(managerid)&gt;=5</sql><sql name="SQL 6">SELECT name
+FROM &quot;Question4&quot;
+WHERE id IN (
+	SELECT managerId
+	from Question4
+	group by managerId
+	HAVING count(*) &gt;= 5);</sql><sql name="SQL 7">SELECT emp.name
+from Question4 as emp
+inner join question4 as mgr on emp.id = mgr.managerId
+GROUP by mgr.managerId
+HAVING count(*)&gt;=5;
+</sql><sql name="SQL 8">SELECT name
+FROM &quot;Question5_1&quot;
+WHERE id NOT IN (
+	SELECT customerId
+	from Question5_2)</sql><sql name="SQL 9">select name
+FROM Question5_1 as cust
+Full Outer join Question5_2 as ORD
+ON cust.id = ORD.customerId
+where cust.id IS NULL OR ORD.customerId is NULL</sql><sql name="SQL 10">SELECT * 
+FROM &quot;Question6&quot;
+WHERE id%2 &lt;&gt; 0 AND description &lt;&gt; 'boring'
+ORDER by rating DESC
+</sql><current_tab id="9"/></tab_sql></sqlb_project>
